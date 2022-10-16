@@ -30,6 +30,8 @@ export default {
           const name = el.name.toLowerCase();
           return name.includes(this.selectRestaurant);
         });
+      } else {
+        return this.fooddata;
       }
     },
   },

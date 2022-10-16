@@ -7,7 +7,7 @@
       :id="select"
       @change="$emit('change', $event.target.value)"
     >
-      <option value="1">-- Please select a {{ select }} --</option>
+      <option value="">-- All Cuisines --</option>
       <option v-for="option in selectOptions" :key="option.id" :value="option">
         {{ option }}
       </option>
