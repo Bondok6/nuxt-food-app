@@ -1,4 +1,4 @@
-# nuxt-food-app
+# Food App
 
 ## [Live Demo Link](https://nuxt-food-app-five.vercel.app/)
 
