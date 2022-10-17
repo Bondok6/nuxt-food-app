@@ -43,7 +43,7 @@
             name="addon"
             :id="addon"
             :value="addon"
-            v-model="itemAddons"
+            v-model="$v.itemAddons.$model"
           />
           <label :for="addon">{{ addon }}</label>
         </div>
@@ -52,8 +52,13 @@
       <AppToast v-if="cartSubmitted">
         Order Submitted <br />
         Check out more
-        <nuxt-link to="/restaurants">restaurants</nuxt-link></AppToast
-      >
+        <nuxt-link to="/restaurants">restaurants</nuxt-link>
+      </AppToast>
+
+      <AppToast v-if="errors">
+        Please select options and
+        <br />addons before continuing
+      </AppToast>
     </section>
 
     <section class="options">
@@ -65,6 +70,8 @@
 
 <script>
 import { mapState } from "vuex";
+import { required } from "vuelidate/lib/validators";
+
 export default {
   data() {
     return {
@@ -74,7 +81,16 @@ export default {
       itemAddons: [],
       itemSizeAndCost: [],
       cartSubmitted: false,
+      errors: false,
     };
+  },
+  validations: {
+    itemOptions: {
+      required,
+    },
+    itemAddons: {
+      required,
+    },
   },
   computed: {
     ...mapState(["fooddata"]),
@@ -107,8 +123,18 @@ export default {
         price: this.combinedPrice,
       };
 
-      this.cartSubmitted = true;
-      this.$store.commit("addToCart", formOutput);
+      let addOnError = this.$v.itemAddons.$invalid;
+      let optionError = this.currentItem.options
+        ? this.$v.itemOptions.$invalid
+        : false;
+
+      if (addOnError || optionError) {
+        this.errors = true;
+      } else {
+        this.errors = false;
+        this.cartSubmitted = true;
+        this.$store.commit("addToCart", formOutput);
+      }
     },
   },
 };
