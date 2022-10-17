@@ -2,17 +2,22 @@
   <nav>
     <ul>
       <li>
-        <nuxt-link to="/">Home</nuxt-link>
+        <nuxt-link to="/"><AppLogo /></nuxt-link>
       </li>
       <li>
         <nuxt-link to="/restaurants">Restaurants</nuxt-link>
       </li>
     </ul>
+    <div class="smallnum">{{ cartCount }}</div>
+    <nuxt-link to="/cart">Cart</nuxt-link>
   </nav>
 </template>
 
 <script>
-export default {};
+import { mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters(["cartCount"]),
+  },
+};
 </script>
-
-<style lang="scss" scoped></style>
